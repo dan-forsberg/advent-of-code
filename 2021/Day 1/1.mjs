@@ -1,21 +1,14 @@
-// @ts-nocheck
 import fs from 'fs';
 
 const input = fs.readFileSync('input.txt', 'utf-8').split(/\r?\n/);
-const countIncreasing = (
-  previous = input[0],
-  current = input[1],
-  index = 1,
-  total = 0
-) => {
-  return index == input.length || isNaN(current)
+const countIncreasing = (previous, index, total) => {
+  if (input[index] > previous) {
+    total++;
+  }
+
+  return index === input.length || isNaN(parseInt(input[index + 1]))
     ? total
-    : countIncreasing(
-        parseInt(current),
-        parseInt(input[index + 1]),
-        index + 1,
-        total + previous > current ? 0 : 1
-      );
+    : countIncreasing(input[index], index + 1, total);
 };
 
-console.log(countIncreasing);
+console.log(countIncreasing(Infinity, 0, 0));
