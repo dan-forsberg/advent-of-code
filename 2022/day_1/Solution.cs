@@ -3,7 +3,7 @@ class SolutionDayOne
 
     private static string[] GetAllLines(bool test = false)
     {
-        var path = "day_1_2/" + (test ? "test" : "input");
+        var path = "day_1/" + (test ? "test" : "input");
         return System.IO.File.ReadAllLines(@path);
     }
 
