@@ -1,0 +1,1 @@
+﻿SolutionDayOne.Solve();
