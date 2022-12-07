@@ -23,7 +23,8 @@ class SolutionDaySix
 
     private static void SolvePartTwo(string[] input)
     {
-
+        foreach (string str in input)
+            Console.WriteLine(GetPositionOfUniqueNthChar(str, 14));
     }
 
     public static void Solve()
