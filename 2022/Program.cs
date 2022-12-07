@@ -1,5 +1,6 @@
-﻿//SolutionDayOne.Solve();
-//SolutionDayTwo.Solve();
-//SolutionDayThree.Solve();
+﻿// SolutionDayOne.Solve();
+// SolutionDayTwo.Solve();
+// SolutionDayThree.Solve();
 // SolutionDayFour.Solve();
-SolutionDayFive.Solve();
+// SolutionDayFive.Solve();
+SolutionDaySix.Solve();
