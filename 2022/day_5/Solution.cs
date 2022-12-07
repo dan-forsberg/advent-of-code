@@ -5,6 +5,7 @@ class CrateStack
 
     public CrateStack(List<char> inputString)
     {
+        Console.WriteLine($"creating stack from {String.Join(' ', inputString)}");
         number = int.Parse(inputString[inputString.Count() - 1].ToString());
         stack = new List<char>();
 
@@ -64,21 +65,26 @@ class SolutionDayFive
         int divider = Array.IndexOf(input, "");
         string[] firstSection = input.Take(divider).ToArray();
         var stackStrings = new List<List<char>>();
-        int len = firstSection[firstSection.Length - 1].Trim().Length + 1;
-        CrateStack[] stacks = new CrateStack[(len / 3)];
+        int numOfStacks = firstSection[firstSection.Length - 1].Replace(" ", "").Length;
 
-        for (int i = 0; i < (len / 3); i++)
+        for (int i = 0; i < numOfStacks; i++)
             stackStrings.Add(new List<char>());
 
         for (int i = 0; i < firstSection.Length; i++)
         {
             var line = firstSection[i];
-            for (int y = 1; y < len; y += 4)
-                stackStrings[(y / 4)].Add(y < line.Length ? line[y] : ' ');
+            for (int y = 1, stack = 0; y < numOfStacks * 4; y += 4, stack++)
+
+                stackStrings[stack].Add(y < line.Length ? line[y] : ' ');
+
         }
 
-        for (int i = 0; i < stackStrings.Count(); i++)
+        CrateStack[] stacks = new CrateStack[numOfStacks];
+        for (int i = 0; i < numOfStacks; i++)
+        {
+            Console.WriteLine($"i = {i}, stacks.lenth = {stacks.Length}, stackstrings count = {numOfStacks}");
             stacks[i] = new CrateStack(stackStrings[i]);
+        }
 
         _stacks = stacks;
     }
