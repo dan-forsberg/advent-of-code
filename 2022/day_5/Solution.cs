@@ -5,7 +5,6 @@ class CrateStack
 
     public CrateStack(List<char> inputString)
     {
-        Console.WriteLine($"creating stack from {String.Join(' ', inputString)}");
         number = int.Parse(inputString[inputString.Count() - 1].ToString());
         stack = new List<char>();
 
@@ -81,24 +80,20 @@ class SolutionDayFive
 
         CrateStack[] stacks = new CrateStack[numOfStacks];
         for (int i = 0; i < numOfStacks; i++)
-        {
-            Console.WriteLine($"i = {i}, stacks.lenth = {stacks.Length}, stackstrings count = {numOfStacks}");
             stacks[i] = new CrateStack(stackStrings[i]);
-        }
 
         _stacks = stacks;
     }
 
-    private static void DoMoves(string[] input)
+    private static void DoMoves(string[] input, bool retainOrder = false)
     {
         int divider = Array.IndexOf(input, "");
         string[] instructions = input.TakeLast(input.Length - divider - 1).ToArray();
         foreach (var inst in instructions)
-            DoMove(inst);
-
+            DoMove(inst, retainOrder);
     }
 
-    private static void DoMove(string instruction)
+    private static void DoMove(string instruction, bool retainOrder)
     {
         if (_stacks == null) return;
         var split = instruction.Split(" ");
@@ -106,23 +101,45 @@ class SolutionDayFive
         var from = int.Parse(split[3]) - 1;
         var to = int.Parse(split[5]) - 1;
 
-        for (int i = 0; i < quantity; i++)
-        {
-            //Console.WriteLine($"Moving {_stacks[from].Peak()} from stack {from + 1} to stack {to + 1}");
-            _stacks[to].Push(_stacks[from].Pop());
-        }
+        char[] letters = new char[quantity];
 
+        for (int i = 0; i < quantity; i++)
+            letters[i] = _stacks[from].Pop();
+
+        if (retainOrder)
+            letters = letters.Reverse().ToArray();
+
+        foreach (var letter in letters)
+            _stacks[to].Push(letter);
+    }
+
+    private static void SolvePartOne(string[] input)
+    {
+        ParseStacks(input);
+        DoMoves(input, false);
+
+        Console.Write("Part one: ");
+        foreach (var stack in _stacks)
+            Console.Write(stack.Peak());
+        Console.WriteLine();
+    }
+
+    private static void SolvePartTwo(string[] input)
+    {
+        ParseStacks(input);
+        DoMoves(input, true);
+
+        Console.Write("Part two: ");
+        foreach (var stack in _stacks)
+            Console.Write(stack.Peak());
+        Console.WriteLine();
     }
 
     public static void Solve()
     {
         var input = GetAllLines(false);
-        ParseStacks(input);
-        DoMoves(input);
-
-        foreach (var stack in _stacks)
-        {
-            Console.Write(stack.Peak());
-        }
+        SolvePartOne(input);
+        SolvePartTwo(input);
     }
+
 }
