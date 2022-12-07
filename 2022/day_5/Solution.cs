@@ -116,6 +116,7 @@ class SolutionDayFive
     private static void SolvePartOne(string[] input)
     {
         ParseStacks(input);
+        if (_stacks == null) return;
         DoMoves(input, false);
 
         Console.Write("Part one: ");
@@ -127,6 +128,7 @@ class SolutionDayFive
     private static void SolvePartTwo(string[] input)
     {
         ParseStacks(input);
+        if (_stacks == null) return;
         DoMoves(input, true);
 
         Console.Write("Part two: ");
