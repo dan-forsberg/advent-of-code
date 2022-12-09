@@ -70,3 +70,14 @@ const resPartOne = paths.filter((p) => p.size <= 100000).reduce(
 );
 
 console.log(resPartOne);
+
+const totSize = paths.reduce(
+  (biggest, curr) => biggest = Math.max(biggest, curr.size),
+  0,
+);
+
+const candidates = paths
+  .filter((p) => p.size >= 30000000 - (70000000 - totSize))
+  .sort((a, b) => a.size - b.size);
+
+console.log(candidates[0].size);
