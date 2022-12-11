@@ -3,4 +3,5 @@
 // SolutionDayThree.Solve();
 // SolutionDayFour.Solve();
 // SolutionDayFive.Solve();
-SolutionDaySix.Solve();
+// SolutionDaySix.Solve();
+SolutionDayEight.Solve();
