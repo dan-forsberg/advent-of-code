@@ -9,6 +9,43 @@ struct Position
         y = Y;
     }
 
+    public void PrintBoard(Position tail)
+    {
+        int height = 5;
+        int width = 6;
+        for (int _y = height; _y > 0; _y--)
+        {
+            for (int _x = 0; x <= width; x++)
+            {
+                char c = '.';
+                if (_x == tail.x && _y == tail.y)
+                    c = 'T';
+                if (_x == x && _y == y)
+                    c = 'H';
+                Console.Write(c);
+            }
+            Console.WriteLine();
+        }
+
+        Console.WriteLine();
+    }
+
+    public string PosToString()
+    {
+        string res = "";
+
+        if (x == 1)
+            res += "right ";
+        if (x == -1)
+            res += "left ";
+        if (y == 1)
+            res += "down ";
+        if (y == -1)
+            res += "up ";
+
+        return res.Trim().ToUpper();
+    }
+
     public void Move(Position p)
     {
         this.x += p.x;
@@ -18,20 +55,37 @@ struct Position
     public bool IsAdjecent(Position p)
         => Math.Abs(p.x - x) <= 1 && Math.Abs(p.y - y) <= 1;
 
-    public Position NecessaryMove(Position p)
+    public Position GetNecessaryMove(Position p)
     {
         var dX = p.x - x;
         var dY = p.y - y;
 
+        if (IsAdjecent(p))
+            return new Position(0, 0);
+        if (dX == 2 && dY == 0)
+            return new Position(1, 0);
+        else if (dX == -2 && dY == 0)
+            return new Position(-1, 0);
+        else if (dX == 0 && dY == 2)
+            return new Position(0, 1);
+        else if (dX == 0 && dY == -2)
+            return new Position(0, -1);
         /* if the head and tail aren't touching and aren't in the same row or
          * column, the tail always moves one step diagonally to keep up */
-        if ((dX == 2 && dY == 1) || (dX == 1 && dY == 2))
+        else if ((dX == 2 && dY == 1) || (dX == 1 && dY == 2))
             return new Position(1, 1);
-
-        if ((dX == -2 && dY == -1) || (dX == -1 && dY == -2))
+        else if ((dX == -2 && dY == -1) || (dX == -1 && dY == -2))
             return new Position(-1, -1);
+        else if ((dX == 1 && dY == -2))
+            return new Position(1, -1);
 
-        return new Position(0, 0);
+        return new Position(dX, dY);
+    }
+
+    public Position DoNecessaryMove(Position p)
+    {
+        Move(GetNecessaryMove(p));
+        return this;
     }
 
     public override string ToString()
@@ -58,6 +112,7 @@ class SolutionDayNine
 
     private static Position[] ParseLine(string line)
     {
+        Console.WriteLine("Parsing and moving for " + line);
         string d = line.Split(" ")[0];
         int moves = Int32.Parse(line.Split(" ")[1]);
         Position[] res = new Position[moves];
@@ -69,21 +124,49 @@ class SolutionDayNine
         return res;
     }
 
+    private static void DoNecessaryMoves(Position[] moves)
+    {
+
+        foreach (var move in moves)
+        {
+            head.Move(move);
+            visitedPositions.Add(tail.DoNecessaryMove(head));
+
+            head.PrintBoard(tail);
+        }
+    }
+
 
     private static void SolvePartOne(string[] input)
     {
+        foreach (var line in input)
+        {
+            DoNecessaryMoves(ParseLine(line));
+        }
+
+        Console.WriteLine("Day 9:1 = " + visitedPositions.Count());
     }
 
 
     private static void SolvePartTwo(string[] input)
     {
+        Position h = new Position(4, -1);
+        Position t = new Position(3, 0);
+
+
+        Console.WriteLine($"head: {h}, tail: {t}");
+        h.Move(new Position(0, -1));
+        Console.WriteLine($"head: {h}, tail: {t}");
+        Console.WriteLine($"tail needs to move: {t.GetNecessaryMove(h)}");
+
+
     }
 
     public static void Solve()
     {
         var input = GetAllLines(true);
         SolvePartOne(input);
-        SolvePartTwo(input);
+        // SolvePartTwo(input);
     }
 
 }
