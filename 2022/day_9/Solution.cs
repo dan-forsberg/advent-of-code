@@ -74,9 +74,9 @@ struct Position
             return new Position(1, 1);
         else if ((dX == -2 && dY == -1) || (dX == -1 && dY == -2))
             return new Position(-1, -1);
-        else if (dX == 1 && dY == -2)
+        else if ((dX == 1 && dY == -2) || (dX == 2 && dY == -1))
             return new Position(1, -1);
-        else if (dX == -2 && dY == 1)
+        else if ((dX == -2 && dY == 1) || (dX == -1 && dY == 2))
             return new Position(-1, 1);
 
         Console.WriteLine($"PANIC!!! ({dX},{dY})");
@@ -175,7 +175,7 @@ class SolutionDayNine
 
     public static void Solve()
     {
-        var input = GetAllLines(true);
+        var input = GetAllLines(false);
         SolvePartOne(input);
         // SolvePartTwo(input);
     }
