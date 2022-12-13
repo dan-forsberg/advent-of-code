@@ -15,7 +15,7 @@ struct Position
         int width = 6;
         for (int _y = height; _y > 0; _y--)
         {
-            for (int _x = 0; x <= width; x++)
+            for (int _x = 0; _x < width; _x++)
             {
                 char c = '.';
                 if (_x == tail.x && _y == tail.y)
