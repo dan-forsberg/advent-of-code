@@ -13,7 +13,7 @@ struct Position
     {
         int height = 5;
         int width = 6;
-        for (int _y = height; _y > 0; _y--)
+        for (int _y = -(height - 1); _y <= 0; _y++)
         {
             for (int _x = 0; _x < width; _x++)
             {
