@@ -11,11 +11,9 @@ struct Position
 
     public void PrintBoard(Position tail)
     {
-        int height = 5;
-        int width = 6;
-        for (int _y = -(height - 1); _y <= 0; _y++)
+        for (int _y = -4; _y <= 0; _y++)
         {
-            for (int _x = 0; _x < width; _x++)
+            for (int _x = 0; _x < 6; _x++)
             {
                 char c = '.';
                 if (_x == tail.x && _y == tail.y)
@@ -76,10 +74,13 @@ struct Position
             return new Position(1, 1);
         else if ((dX == -2 && dY == -1) || (dX == -1 && dY == -2))
             return new Position(-1, -1);
-        else if ((dX == 1 && dY == -2))
+        else if (dX == 1 && dY == -2)
             return new Position(1, -1);
+        else if (dX == -2 && dY == 1)
+            return new Position(-1, 1);
 
-        return new Position(dX, dY);
+        Console.WriteLine($"PANIC!!! ({dX},{dY})");
+        throw new Exception();
     }
 
     public Position DoNecessaryMove(Position p)
@@ -95,7 +96,6 @@ struct Position
 
 class SolutionDayNine
 {
-
     private static Position right = new Position(1, 0);
     private static Position left = new Position(-1, 0);
     private static Position up = new Position(0, -1);
@@ -112,7 +112,7 @@ class SolutionDayNine
 
     private static Position[] ParseLine(string line)
     {
-        Console.WriteLine("Parsing and moving for " + line);
+        // Console.WriteLine("Parsing and moving for " + line);
         string d = line.Split(" ")[0];
         int moves = Int32.Parse(line.Split(" ")[1]);
         Position[] res = new Position[moves];
@@ -126,13 +126,24 @@ class SolutionDayNine
 
     private static void DoNecessaryMoves(Position[] moves)
     {
-
         foreach (var move in moves)
         {
             head.Move(move);
             visitedPositions.Add(tail.DoNecessaryMove(head));
+            // head.PrintBoard(tail);
+            // Console.ReadKey();
+        }
 
-            head.PrintBoard(tail);
+        // PrintVisitedPositions();
+    }
+
+    private static void PrintVisitedPositions()
+    {
+        for (int _y = -4; _y <= 0; _y++)
+        {
+            for (int _x = 0; _x < 6; _x++)
+                Console.Write(visitedPositions.Contains(new Position(_x, _y)) ? "#" : ".");
+            Console.WriteLine();
         }
     }
 
